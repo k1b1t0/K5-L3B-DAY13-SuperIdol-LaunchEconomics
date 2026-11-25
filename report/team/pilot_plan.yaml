@@ -3,28 +3,30 @@
 # Kiểm tra đọc được: python -c "import yaml; yaml.safe_load(open('../report/team/pilot_plan.yaml'))"
 #
 # D1 · Cỡ mẫu (baseline 0,70; mục tiêu +5 điểm; alpha 0,05; power 0,8; ICC 0,02)
-#   a) Chia theo yêu cầu:
-#   b) Theo nhân viên, m = 75:
-#   c) 20 nhân viên mỗi nhóm:
-#   d) 6 depot mỗi nhóm:
-#   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm:
+#   a) Chia theo yêu cầu: 1.250 yêu cầu mỗi nhóm
+#   b) Theo nhân viên, m = 75: deff = 2,48; n = 3.100 yêu cầu mỗi nhóm (42 nhân viên mỗi nhóm)
+#   c) 20 nhân viên mỗi nhóm: không đủ cụm vì 20 < 1.250 * 0,02 = 25 (mẫu hữu hiệu tối đa 1.000 < 1.250)
+#   d) 6 depot mỗi nhóm: không đủ cụm (cần tối thiểu 20 cụm mỗi nhóm)
+#   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm: đạt được nếu m đủ lớn (deff tối đa 4,66)
 #
 # D2 · Năm câu kiểm tra "tách được tác động" với cách chia đã chọn (mỗi câu một dòng):
-#   1. Đối chứng chạy cùng thời gian:
-#   2. Chia ngẫu nhiên hay do người chọn:
-#   3. Ảnh hưởng gián tiếp và cách giảm:
-#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước:
-#   5. Ít nhất 20 cụm mỗi nhóm:
+#   1. Đối chứng chạy cùng thời gian: Có, 50% nhóm đối chứng chạy song song trong cùng khung thời gian
+#   2. Chia ngẫu nhiên hay do người chọn: Chia ngẫu nhiên theo nhân viên (stratified theo depot)
+#   3. Ảnh hưởng gián tiếp và cách giảm: Nhân viên nhóm đối chứng có thể học cách dùng từ nhóm thử nghiệm; giảm bằng cách tách ca/khu vực làm việc
+#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước: Đã chốt trước trong pilot_plan.yaml (dong_trong_24h_khong_mo_lai_7_ngay, MDE +0,05, ngày 2026-12-16)
+#   5. Ít nhất 20 cụm mỗi nhóm: Đạt, chọn 42 nhân viên mỗi nhóm (>= 20 cụm)
 #
 # Đánh đổi đã chấp nhận (nếu cách chia chưa đạt cả hai điều kiện):
+#   Chia theo nhân viên (42 nhân viên/nhóm) để vừa đạt >= 20 cụm vừa giảm spillover so với chia theo yêu cầu.
 #
 # Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
+#   Hiện tại 4,25% (51/1.200); ngưỡng an toàn dừng pilot: > 5,00% trong 3 ngày liên tiếp.
 
 pilot:
-  owner: "?"                      # một người có tên vai trò, không ghi "cả đội"
-  scope: "?"                      # loại yêu cầu nào, depot nào; dựa vào kết quả A3
+  owner: "Trưởng vận hành pilot"
+  scope: "Chỉ áp dụng cho yêu cầu noi_dia và hang_nang tại các depot tham gia pilot (loại quoc_te vì CPS 22.515 đ > 12.000 đ)"
   assignment:
-    unit: "?"                     # request | staff | depot
+    unit: staff
     control_share: 0.5
     randomized: true
   rollout: [0.10, 0.25, 0.50]     # mỗi bước một tuần
@@ -34,18 +36,18 @@ pilot:
     mde: 0.05
     alpha: 0.05
     power: 0.80
-    n_per_arm: "?"
-    design_effect: "?"            # 1 nếu chia theo yêu cầu
-    clusters_per_arm: "?"         # để trống nếu chia theo yêu cầu
+    n_per_arm: 3100
+    design_effect: 2.48
+    clusters_per_arm: 42
   identifiability:
-    concurrent_control: "?"
-    spillover_risk: "?"
-    predeclared: "?"
+    concurrent_control: true
+    spillover_risk: "Thấp; tách nhân viên ngẫu nhiên và không dùng chung hàng đợi xử lý"
+    predeclared: true
   stop_rules:
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
+    - "NẾU ti_le mo_lai_trong_7_ngay > 5.0% TRONG 3 ngay lien tiep THÌ Trưởng vận hành pilot dung rollout va chuyen ve quy trinh thu cong KHÔNG THÌ tiep tuc theo doi"
+    - "NẾU chi_phi_moi_viec_thanh_cong > 12.000 đ (hoac ti_le xem_lai > 50%) TRONG 1 tuan THÌ Kỹ sư phụ trách agent tam dung mo rong va tinh chinh nguong tu tin KHÔNG THÌ giu nguyen muc rollout"
+    - "NẾU ti_le bo_qua_goi_y (sua hoac bo) > 40% TRONG 5 ngay lam viec THÌ Trưởng vận hành pilot tam dung nhom thu nghiem de ra soat bang loi KHÔNG THÌ tiep tuc rollout"
   interim_looks: "chỉ kiểm tra chỉ số an toàn"
-  rollback: "?"                   # ai bấm, mất bao lâu, khách được phục vụ bằng gì
-  decision_date: "?"
-  simulated_inputs: ["?"]         # liệt kê mọi con số giả lập đã dùng
+  rollback: "Trưởng vận hành pilot tắt cờ tính năng trong 5 phút; toàn bộ yêu cầu chuyển về nhân viên tự xử lý theo quy trình chuẩn"
+  decision_date: "2026-12-16"
+  simulated_inputs: ["phut_xem_lai_simulated", "phut_lam_lai_simulated", "cps_4472_simulated"]

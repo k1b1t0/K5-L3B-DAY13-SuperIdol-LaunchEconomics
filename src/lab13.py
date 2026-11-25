@@ -4,6 +4,7 @@ Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TO
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 
+import math
 import pandas as pd
 
 # Bảng giá GIẢ ĐỊNH của lab (không phải giá thật của nhà cung cấp nào)
@@ -172,6 +173,29 @@ if __name__ == "__main__":
     print(
         f"Xem lai 100% (tb {tb_phut_xem_lai:.2f} phut) | cps={kq_b4['cps']:7,.0f} | so voi 12,000: {kq_b4['cps'] / BASELINE:.2f}x"
     )
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    # Nhiệm vụ D: tính cỡ mẫu 5 kịch bản (D1) và tỉ lệ mở lại trong 7 ngày
+    print("\nD1 - co mau:")
+    z_a, z_b = 1.959964, 0.841621
+    h_5 = 2 * math.asin(math.sqrt(0.75)) - 2 * math.asin(math.sqrt(0.70))
+    n_req = math.ceil(2 * ((z_a + z_b) / h_5) ** 2)
+    icc = 0.02
+    deff_75 = 1 + (75 - 1) * icc
+    n_eff_75 = math.ceil(n_req * deff_75)
+    cum_nv = math.ceil(n_eff_75 / 75)
+    # Với 20 nhân viên/nhóm và 6 depot/nhóm: tính cỡ mẫu hiệu dụng
+    m_20nv = (
+        math.ceil(n_req * (1 - icc) / (20 - n_req * icc))
+        if 20 > n_req * icc
+        else float("inf")
+    )
+    ti_le_mo_lai = (reqs["mo_lai_trong_7_ngay"] == 1).mean()
+    print(f"a) theo yeu cau: {n_req} moi nhom")
+    print(
+        f"b) theo nhan vien (m=75): deff={deff_75:.2f}, n={n_eff_75} ({cum_nv} nv/nhom)"
+    )
+    print(f"c) 20 nv/nhom: can toi thieu {m_20nv} yeu cau/nv")
+    print("d) 6 depot/nhom: khong du cum (toi thieu 20 cum/nhom)")
+    print(
+        f"e) chenh 6 diem (859/nhom), 20 nv/nhom: deff_max={20 * 200 / (859):.2f}, thieu cum neu m lon"
+    )
+    print(f"ti le mo_lai_trong_7_ngay hien tai: {ti_le_mo_lai:.2%}")
