@@ -29,7 +29,7 @@ Nhóm xây dựng hồ sơ launch v0 (Gate 2a) cho trợ lý hoàn phí LogiX-VN
   - Trong đợt chạy thử: đóng 24h không mở lại 7 ngày **82,83%** (994/1.200); bỏ qua gợi ý **27,12%** (48/177); mở lại 7 ngày **4,25%** (51/1.200).
   - Kế hoạch pilot chọn chia theo `staff` (`control_share: 0.5`, `n_per_arm: 3100`, `design_effect: 2.48`, `clusters_per_arm: 42`, `mde: 0.05`, ngày quyết định `2026-12-16`) kèm 3 luật dừng an toàn/chi phí/sử dụng.
 - **Đề xuất Gate 2a (`ho_so_launch_v0.md`):** Nhóm chốt **Go có điều kiện** cho phạm vi `noi_dia` + `hang_nang` với 4 điều kiện có người phụ trách và ngày kiểm tra: (1) chỉnh `pilot_plan.yaml` từ `42` xuống `20` nhân viên/nhóm (`859` yc/nhóm, MDE `0,06`, power `0,64` ở mức 5 điểm), (2) sửa lỗi `max_lan_chay`/A4/B4 trong `src/lab13.py` để sai số ≤ 2%, (3) chốt đồng thuận `bang_loi.md` và vá khoá chống trùng/đối soát sổ cái (Ca 7, Ca 20), (4) bật đủ ≥ 6 event có `trace_id` và giữ tỉ lệ xem lại < 50%.
-- **Lỗi & Duyệt chéo:** `bang_loi.md` đã có 20 nhãn độc lập của Người gắn nhãn 1 và bảng khắc phục 5 ca (chờ ghép 20 nhãn của TV4); kết quả duyệt chéo từ hội đồng sẽ cập nhật sau phiên 17:00.
+- **Lỗi & Duyệt chéo:** [bang_loi.md](bang_loi.md) đã hoàn tất ghép 20 nhãn độc lập giữa TV3 và TV4 đạt đồng thuận **20/20 (100%)** (4 Do người dùng, 5 Hệ thống, 4 Ngữ cảnh, 4 Giới hạn hệ thống, 3 Ngầm) kèm bảng khắc phục 5 ca; kết quả duyệt chéo từ hội đồng sẽ cập nhật sau phiên 17:00.
 
 ## 5. Khó khăn và cách xử lý
 
