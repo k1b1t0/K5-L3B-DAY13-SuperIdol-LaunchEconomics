@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Nguyen Thanh Nam | 2A202663213 | n4malias@gmail.com | (theo tai khoan n4malias@gmail.com) | Nhóm trưởng & Người viết code (trước giải lao) |
+|   1 | Nguyen Thanh Nam | 2A202663213 | n4malias@gmail.com | n4malias | Nhóm trưởng & Người viết code (trước giải lao) |
 |   2 | Nguyen Minh Duc | 2A202603960 | nguyenminhduc2882005@gmail.com | k1b1t0 | Kiểm số → Code (sau giải lao) |
 |   3 | Lê Hải Anh | 2A202603986 | lehaianh252005@gmail.com | haianh020505 | Người gắn nhãn 1 & Duyệt chéo |
 |   4 | Lê Thành Nguyên | 2A202603733 | nguyenngungonvc@gmail.com | NguyenLTpk | Người gắn nhãn 2 & Giữ hồ sơ |

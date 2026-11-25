@@ -31,7 +31,7 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 - **Tỉ lệ bỏ qua gợi ý:** tính từ `human_review_completed` (`quyet_dinh_xem_lai` là `sua` hoặc `bo` chia tổng số ca `duoc_xem_lai == 1`).
 - **Tỉ lệ lỗi lọt đến khách:** tính từ `request_reopened_7d` (`mo_lai_trong_7_ngay == 1`) chia tổng số `request_received`.
 - **Tỉ lệ yêu cầu chuyển nhân viên:** tính từ `request_escalated` chia tổng số `request_received`.
-- **Tỉ lệ hoàn phí sai mức tiền (ngầm):** **chưa đo được** từ 6 event trên vì chưa có event kiểm toán/đối soát số tiền sau khi đóng (`audit_amount_checked`).
+- **Tỉ lệ hoàn phí sai mức tiền (ngầm):** **chưa đo được** từ 6 event trên vì chưa có event kiểm toán/đối soát số tiền sau khi đóng (`audit_sample_checked`).
 
 ## E2 · Rủi ro kinh tế
 

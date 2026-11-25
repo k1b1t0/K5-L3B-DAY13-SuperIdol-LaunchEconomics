@@ -36,7 +36,7 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | quoc_te | 150 | 27,3% | 2,32 | 22.515 đ (`simulated`) | 1,88× (đắt hơn) |
 | doi_tac | 68 | 54,4% | 1,88 | 10.215 đ (`simulated`) | 0,85× (rẻ hơn) |
 
-- Loại nào không đáng để trợ lý xử lý? Với loại đó, cho chạy lại tới 3 lần có giúp không? **`quoc_te`** không đáng xử lý vì chi phí **22.515 đ** (`simulated`, gấp 1,88× mức 12.000 đ). Chạy lại tới 3 lần không giúp vì tỉ lệ thành công chỉ **27,3%**, càng chạy lại càng tốn thêm token/tool và giờ làm lại.
+- Loại nào không đáng để trợ lý xử lý? Với loại đó, cho chạy lại tới 3 lần có giúp không? **`quoc_te`** không đáng xử lý vì chi phí **22.515 đ** (`simulated`, gấp 1,88× mức 12.000 đ). Chạy lại tới 3 lần không giúp vì tỉ lệ thành công chỉ **27,3%** dù trung bình chạy tới **2,32 lần/yêu cầu**, càng chạy lại càng tốn thêm token/tool và giờ làm lại.
 
 ## A4 · Chi phí cố định (phạm vi noi_dia + hang_nang)
 

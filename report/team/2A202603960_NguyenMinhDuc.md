@@ -17,7 +17,7 @@
 ## 3. Đóng góp cụ thể
 
 - Hoàn thiện đầy đủ bảng A1–A4, B1–B4 trong `report/team/bang_chi_phi.md`, gắn nhãn `simulated` cho mọi con số từ cột `_simulated` và trả lời ngắn gọn ≤ 3 dòng có số.
-- Code phần D1 trong `src/lab13.py` (chia theo yêu cầu `1.250`, theo nhân viên `m=75` ra `3.100` / `42` nhân viên mỗi nhóm, phân tích 20 nhân viên & 6 depot, tỉ lệ `mo_lai_trong_7_ngay = 4,25%`).
+- Code phần D1 trong `src/lab13.py` (chia theo yêu cầu `1.251`, theo nhân viên `m=75` ra `3.103` / `42` nhân viên mỗi nhóm, phân tích 20 nhân viên & 6 depot, tỉ lệ `mo_lai_trong_7_ngay = 4,25%`).
 - Hoàn thiện `report/team/pilot_plan.yaml` không còn dấu `?`, đủ 5 câu D2 và 3 luật dừng theo mẫu `NẾU – TRONG – THÌ – KHÔNG THÌ`.
 
 ## 4. Bằng chứng
