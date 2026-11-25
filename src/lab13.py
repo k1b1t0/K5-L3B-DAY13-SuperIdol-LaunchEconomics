@@ -84,8 +84,65 @@ if __name__ == '__main__':
     ket_qua = mo_hinh(runs, reqs)
     for ten, gia_tri in ket_qua.items():
         print(f'{ten:12s} {gia_tri:>14,.0f}')
-    # TODO CP1 · Nhiệm vụ A3: tính lại theo từng giá trị của cột loai.
-    # TODO CP2 · Nhiệm vụ B: đổi từng yếu tố, ghi vào bảng độ nhạy.
+    # Nhiệm vụ A3: tính lại theo từng giá trị của cột loai.
+    print('\n--- A3 · Tách theo loại yêu cầu ---')
+    for loai in ['noi_dia', 'hang_nang', 'quoc_te', 'doi_tac']:
+        sub_reqs = reqs[reqs['loai'] == loai]
+        sub_runs = runs[runs['request_id'].isin(sub_reqs['request_id'])]
+        kq = mo_hinh(sub_runs, sub_reqs)
+        ti_le_tc = kq['thanh_cong'] / len(sub_reqs)
+        lan_chay_tb = len(sub_runs) / len(sub_reqs)
+        print(f"{loai:10s} | n={len(sub_reqs):4d} | tc={ti_le_tc:5.1%} | chay={lan_chay_tb:4.2f} | cps={kq['cps']:8,.0f}")
+
+    # Nhiệm vụ A4: chi phí cố định 40 triệu đ/tháng cho phạm vi noi_dia + hang_nang
+    print('\n--- A4 · Chi phí cố định (noi_dia + hang_nang) ---')
+    pham_vi_reqs = reqs[reqs['loai'].isin(['noi_dia', 'hang_nang'])]
+    pham_vi_runs = runs[runs['request_id'].isin(pham_vi_reqs['request_id'])]
+    kq_pv = mo_hinh(pham_vi_runs, pham_vi_reqs)
+    ti_le_tc_pv = kq_pv['thanh_cong'] / len(pham_vi_reqs)
+    for khoi_luong in [45000, 22500]:
+        viec_tc_thang = khoi_luong * ti_le_tc_pv
+        co_dinh_moi_viec = 40_000_000 / viec_tc_thang
+        tong_cps = kq_pv['cps'] + co_dinh_moi_viec
+        print(f"KL={khoi_luong:5d} | tc/thang={viec_tc_thang:8,.0f} | co_dinh/viec={co_dinh_moi_viec:6,.0f} | tong_cps={tong_cps:7,.0f}")
+
+    # Nhiệm vụ B1-B4: độ nhạy, đổi cặp, giới hạn chạy lại, xem lại 100%
+    print('\n--- B1 · Đổi từng yếu tố ---')
+    cps_goc = ket_qua['cps']
+    kich_ban_b1 = [
+        ('Gia token x2', dict(gia_vao=52, gia_ra=260)),
+        ('Gia token /2', dict(gia_vao=13, gia_ra=65)),
+        ('Xem lai x2', dict(he_so_xem_lai=2.0)),
+        ('Xem lai /2', dict(he_so_xem_lai=0.5)),
+        ('Lam lai x2', dict(he_so_lam_lai=2.0)),
+        ('Lam lai /2', dict(he_so_lam_lai=0.5)),
+        ('Luong +25%', dict(luong_phut=2500)),
+        ('Max 2 lan', dict(max_lan_chay=2)),
+        ('Max 1 lan', dict(max_lan_chay=1)),
+    ]
+    for ten_kb, kw in kich_ban_b1:
+        kq_kb = mo_hinh(runs, reqs, **kw)
+        pct = (kq_kb['cps'] - cps_goc) / cps_goc * 100
+        print(f"{ten_kb:16s} | cps={kq_kb['cps']:7,.0f} | {pct:+6.2f}%")
+
+    print('\n--- B2 · Đổi một cặp ---')
+    kq_b2 = mo_hinh(runs, reqs, gia_vao=52, gia_ra=260, he_so_xem_lai=2.0)
+    print(f"Token x2 + Xem lai x2 | cps={kq_b2['cps']:7,.0f} | {(kq_b2['cps']-cps_goc)/cps_goc*100:+6.2f}%")
+
+    print('\n--- B3 · Giới hạn chạy lại ---')
+    for max_k in [1, 2, 3]:
+        kq_k = mo_hinh(runs, reqs, max_lan_chay=max_k)
+        khong_tc = len(reqs) - kq_k['thanh_cong']
+        chi_phi_he_thong = kq_k['tong'] + khong_tc * BASELINE
+        print(f"Max {max_k} lan | tong_tro_ly={kq_k['tong']:9,.0f} | khong_tc={khong_tc:3d} | he_thong={chi_phi_he_thong:9,.0f} | cps={kq_k['cps']:7,.0f}")
+
+    print('\n--- B4 · Xem lại 100% (noi_dia + hang_nang) ---')
+    # Nếu xem lại 100% yêu cầu trong phạm vi, mỗi yêu cầu tốn thêm thời gian xem lại trung bình
+    reqs_100 = pham_vi_reqs.copy()
+    tb_phut_xem_lai = reqs_100.loc[reqs_100['duoc_xem_lai'] == 1, 'phut_xem_lai_simulated'].mean()
+    reqs_100['phut_xem_lai_simulated'] = tb_phut_xem_lai
+    kq_b4 = mo_hinh(pham_vi_runs, reqs_100)
+    print(f"Xem lai 100% (tb {tb_phut_xem_lai:.2f} phut) | cps={kq_b4['cps']:7,.0f} | so voi 12,000: {kq_b4['cps']/BASELINE:.2f}x")
     # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
     #   from statsmodels.stats.proportion import proportion_effectsize
     #   from statsmodels.stats.power import NormalIndPower
