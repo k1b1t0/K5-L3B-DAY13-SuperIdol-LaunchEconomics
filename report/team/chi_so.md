@@ -39,5 +39,5 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 
 | Rủi ro | Tác động đã tính | Dấu hiệu theo dõi | Hành động | Người phụ trách |
 | --- | --- | --- | --- | --- |
-| Số ca phải làm lại tăng gấp đôi | Chi phí mỗi việc thành công tăng **+51,77%** (từ 4.472 đ lên **6.787 đ**) | Tỉ lệ `mo_lai_trong_7_ngay` vượt ngưỡng 4,25% hoặc `lam_lai` tăng liên tục theo tuần | Kích hoạt luật dừng an toàn, rà soát nguyên nhân gốc trong bảng lỗi và tạm thu hẹp phạm vi pilot | Trưởng vận hành pilot |
+| Số ca phải làm lại tăng gấp đôi | Chi phí mỗi việc thành công tăng **+51,77%** (từ 4.472 đ lên **6.787 đ**, `simulated`) | Tỉ lệ `mo_lai_trong_7_ngay` cao hơn đối chứng >= 2 điểm hoặc vượt 6,0%, hoặc `lam_lai` > 7%/tuần | Kích hoạt luật dừng an toàn, rà soát nguyên nhân gốc trong bảng lỗi và tạm thu hẹp phạm vi pilot | Trưởng vận hành pilot |
 | Tỉ lệ nhân viên phải xem lại tăng lên 100% | Chi phí mỗi việc thành công ở phạm vi `noi_dia` + `hang_nang` lên **11.743 đ** (**0,98×** với 9 phút làm lại) hoặc **12.415 đ** (**1,03×** mức 12.000 đ nếu làm lại 15,3 phút/ca như dữ liệu, `simulated`) | Tỉ lệ `duoc_xem_lai` vượt 50% hoặc thời gian xem lại trung bình > 4,8 phút/ca | Tạm dừng mở rộng rollout, tinh chỉnh ngưỡng tự tin của agent để giảm ca phải xem lại | Kỹ sư phụ trách agent |

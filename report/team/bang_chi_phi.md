@@ -24,7 +24,7 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | Chi phí mỗi việc thành công | 4.472 | | simulated |
 | Hoá đơn token và tool chia cho số yêu cầu | 275 | | |
 
-- Chi phí mỗi việc thành công gấp bao nhiêu lần "hoá đơn chia số yêu cầu"? Gấp **16,28 lần** (4.472 đ so với 275 đ).
+- Chi phí mỗi việc thành công gấp bao nhiêu lần "hoá đơn chia số yêu cầu"? Gấp **16,28 lần** (4.472 đ `simulated` so với 275 đ).
 - Khoản nào chiếm tỉ trọng lớn nhất trong tổng chi phí, bao nhiêu phần trăm? **Làm lại** (`simulated`), chiếm **51,77%** (2.264.000 / 4.373.585 đ).
 
 ## A3 · Tách theo loại yêu cầu
@@ -36,7 +36,7 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | quoc_te | 150 | 27,3% | 2,32 | 22.515 đ (`simulated`) | 1,88× (đắt hơn) |
 | doi_tac | 68 | 54,4% | 1,88 | 10.215 đ (`simulated`) | 0,85× (rẻ hơn) |
 
-- Loại nào không đáng để trợ lý xử lý? Với loại đó, cho chạy lại tới 3 lần có giúp không? **`quoc_te`** không đáng xử lý vì chi phí **22.515 đ** (gấp 1,88× mức 12.000 đ). Chạy lại tới 3 lần không giúp vì tỉ lệ thành công chỉ **27,3%**, càng chạy lại càng tốn thêm token/tool và giờ làm lại.
+- Loại nào không đáng để trợ lý xử lý? Với loại đó, cho chạy lại tới 3 lần có giúp không? **`quoc_te`** không đáng xử lý vì chi phí **22.515 đ** (`simulated`, gấp 1,88× mức 12.000 đ). Chạy lại tới 3 lần không giúp vì tỉ lệ thành công chỉ **27,3%**, càng chạy lại càng tốn thêm token/tool và giờ làm lại.
 
 ## A4 · Chi phí cố định (phạm vi noi_dia + hang_nang)
 
@@ -45,7 +45,7 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | 45.000 yêu cầu/tháng | 33.750 | 1.185 đ | 4.599 đ (`simulated`) | 0,38× |
 | Một nửa khối lượng | 16.875 | 2.370 đ | 5.784 đ (`simulated`) | 0,48× |
 
-- Chi phí cố định có đổi kết luận không? Ở khối lượng nào? **Không đổi kết luận** ở cả quy mô đầy đủ (**4.599 đ = 0,38×**) và nửa khối lượng (**5.784 đ = 0,48×**), đều thấp hơn nhiều so với **12.000 đ**; tuy nhiên chi phí cố định tăng gấp đôi khi khối lượng giảm một nửa (từ 1.185 đ lên 2.370 đ/việc).
+- Chi phí cố định có đổi kết luận không? Ở khối lượng nào? **Không đổi kết luận** ở cả quy mô đầy đủ (**4.599 đ = 0,38×**, `simulated`) và nửa khối lượng (**5.784 đ = 0,48×**, `simulated`), đều thấp hơn nhiều so với **12.000 đ**; tuy nhiên chi phí cố định tăng gấp đôi khi khối lượng giảm một nửa (từ 1.185 đ lên 2.370 đ/việc).
 
 ## B1 · Đổi từng yếu tố
 
@@ -74,7 +74,7 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | 2 lần | 4.093.220 đ (`simulated`) | 234 | 6.901.220 đ (`simulated`) | 4.237 đ (`simulated`) |
 | 3 lần | 4.373.585 đ (`simulated`) | 222 | 7.037.585 đ (`simulated`) | 4.472 đ (`simulated`) |
 
-- Giới hạn nào rẻ nhất cho công ty? Có trùng với giới hạn cho chi phí mỗi việc thành công thấp nhất không? **2 lần** rẻ nhất cho công ty (**6.901.220 đ**) và **không trùng** với giới hạn cho chi phí mỗi việc thành công thấp nhất là **1 lần** (**4.111 đ**); tối ưu riêng CPS sẽ đẩy thêm 85 việc sang nhân viên.
+- Giới hạn nào rẻ nhất cho công ty? Có trùng với giới hạn cho chi phí mỗi việc thành công thấp nhất không? **2 lần** rẻ nhất cho công ty (**6.901.220 đ**, `simulated`) và **không trùng** với giới hạn cho chi phí mỗi việc thành công thấp nhất là **1 lần** (**4.111 đ**, `simulated`); tối ưu riêng CPS sẽ đẩy thêm 85 việc sang nhân viên.
 
 ## B4 · Nếu phải xem lại tất cả
 
