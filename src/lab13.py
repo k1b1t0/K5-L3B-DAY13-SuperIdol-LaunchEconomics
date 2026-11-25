@@ -102,7 +102,7 @@ if __name__ == "__main__":
     for ten, gia_tri in ket_qua.items():
         print(f"{ten:12s} {gia_tri:>14,.0f}")
     # Nhiệm vụ A3: tính lại theo từng giá trị của cột loai.
-    print("\n--- A3 · Tách theo loại yêu cầu ---")
+    print("\nA3 - theo loai:")
     for loai in ["noi_dia", "hang_nang", "quoc_te", "doi_tac"]:
         sub_reqs = reqs[reqs["loai"] == loai]
         sub_runs = runs[runs["request_id"].isin(sub_reqs["request_id"])]
@@ -114,7 +114,7 @@ if __name__ == "__main__":
         )
 
     # Nhiệm vụ A4: chi phí cố định 40 triệu đ/tháng cho phạm vi noi_dia + hang_nang
-    print("\n--- A4 · Chi phí cố định (noi_dia + hang_nang) ---")
+    print("\nA4 - chi phi co dinh:")
     pham_vi_reqs = reqs[reqs["loai"].isin(["noi_dia", "hang_nang"])]
     pham_vi_runs = runs[runs["request_id"].isin(pham_vi_reqs["request_id"])]
     kq_pv = mo_hinh(pham_vi_runs, pham_vi_reqs)
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         )
 
     # Nhiệm vụ B1-B4: độ nhạy, đổi cặp, giới hạn chạy lại, xem lại 100%
-    print("\n--- B1 · Đổi từng yếu tố ---")
+    print("\nB1 - do nhay:")
     cps_goc = ket_qua["cps"]
     kich_ban_b1 = [
         ("Gia token x2", dict(gia_vao=52, gia_ra=260)),
@@ -146,13 +146,13 @@ if __name__ == "__main__":
         pct = (kq_kb["cps"] - cps_goc) / cps_goc * 100
         print(f"{ten_kb:16s} | cps={kq_kb['cps']:7,.0f} | {pct:+6.2f}%")
 
-    print("\n--- B2 · Đổi một cặp ---")
+    print("\nB2 - doi cap:")
     kq_b2 = mo_hinh(runs, reqs, gia_vao=52, gia_ra=260, he_so_xem_lai=2.0)
     print(
         f"Token x2 + Xem lai x2 | cps={kq_b2['cps']:7,.0f} | {(kq_b2['cps'] - cps_goc) / cps_goc * 100:+6.2f}%"
     )
 
-    print("\n--- B3 · Giới hạn chạy lại ---")
+    print("\nB3 - gioi han chay lai:")
     for max_k in [1, 2, 3]:
         kq_k = mo_hinh(runs, reqs, max_lan_chay=max_k)
         khong_tc = len(reqs) - kq_k["thanh_cong"]
@@ -161,7 +161,7 @@ if __name__ == "__main__":
             f"Max {max_k} lan | tong_tro_ly={kq_k['tong']:9,.0f} | khong_tc={khong_tc:3d} | he_thong={chi_phi_he_thong:9,.0f} | cps={kq_k['cps']:7,.0f}"
         )
 
-    print("\n--- B4 · Xem lại 100% (noi_dia + hang_nang) ---")
+    print("\nB4 - xem lai 100%:")
     # Nếu xem lại 100% yêu cầu trong phạm vi, mỗi yêu cầu tốn thêm thời gian xem lại trung bình
     reqs_100 = pham_vi_reqs.copy()
     tb_phut_xem_lai = reqs_100.loc[
