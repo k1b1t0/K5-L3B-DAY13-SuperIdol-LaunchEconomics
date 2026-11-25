@@ -3,51 +3,57 @@
 # Kiểm tra đọc được: python -c "import yaml; yaml.safe_load(open('../report/team/pilot_plan.yaml'))"
 #
 # D1 · Cỡ mẫu (baseline 0,70; mục tiêu +5 điểm; alpha 0,05; power 0,8; ICC 0,02)
-#   a) Chia theo yêu cầu: 1.250 yêu cầu mỗi nhóm
-#   b) Theo nhân viên, m = 75: deff = 2,48; n = 3.100 yêu cầu mỗi nhóm (42 nhân viên mỗi nhóm)
-#   c) 20 nhân viên mỗi nhóm: không đủ cụm vì 20 < 1.250 * 0,02 = 25 (mẫu hữu hiệu tối đa 1.000 < 1.250)
-#   d) 6 depot mỗi nhóm: không đủ cụm (cần tối thiểu 20 cụm mỗi nhóm)
-#   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm: đạt được nếu m đủ lớn (deff tối đa 4,66)
+#   a) Chia theo yêu cầu: 1.251 yêu cầu mỗi nhóm
+#   b) Theo nhân viên, m = 75: DE = 2,48; n = 3.103 mỗi nhóm (42 nhân viên mỗi nhóm, tổng 84 > 40 nhân viên -> không đủ người)
+#   c) 20 nhân viên mỗi nhóm: cỡ mẫu hiệu dụng tối đa 20 / 0,02 = 1.000 < 1.251 -> không đạt
+#   d) 6 depot mỗi nhóm: cỡ mẫu hiệu dụng tối đa 6 / 0,02 = 300 < 1.251 -> không đạt (và dưới 20 cụm)
+#   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm: mỗi nhân viên cần m >= 299 yêu cầu (DE = 6,96); nếu tác động thật là 5 điểm thì power còn 0,64
 #
 # D2 · Năm câu kiểm tra "tách được tác động" với cách chia đã chọn (mỗi câu một dòng):
-#   1. Đối chứng chạy cùng thời gian: Có, 50% nhóm đối chứng chạy song song trong cùng khung thời gian
-#   2. Chia ngẫu nhiên hay do người chọn: Chia ngẫu nhiên theo nhân viên (stratified theo depot)
-#   3. Ảnh hưởng gián tiếp và cách giảm: Nhân viên nhóm đối chứng có thể học cách dùng từ nhóm thử nghiệm; giảm bằng cách tách ca/khu vực làm việc
-#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước: Đã chốt trước trong pilot_plan.yaml (dong_trong_24h_khong_mo_lai_7_ngay, MDE +0,05, ngày 2026-12-16)
-#   5. Ít nhất 20 cụm mỗi nhóm: Đạt, chọn 42 nhân viên mỗi nhóm (>= 20 cụm)
+#   1. Đối chứng chạy cùng thời gian: Có, 20 nhân viên đối chứng làm cùng tuần, cùng depot
+#   2. Chia ngẫu nhiên hay do người chọn: Chia ngẫu nhiên theo nhân viên bằng code có seed ghi trước, phân tầng theo depot
+#   3. Ảnh hưởng gián tiếp và cách giảm: Có rủi ro nhân viên trao đổi trong depot; giảm bằng phân quyền theo tài khoản và ghi log theo staff_id
+#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước: Đã chốt trước trong pilot_plan.yaml (dong_trong_24h_khong_mo_lai_7_ngay, MDE +0,06, ngày 2026-12-16)
+#   5. Ít nhất 20 cụm mỗi nhóm: Đạt, chọn đúng 20 nhân viên mỗi nhóm (= 20 cụm, dùng hết 40 nhân viên hiện có)
 #
 # Đánh đổi đã chấp nhận (nếu cách chia chưa đạt cả hai điều kiện):
-#   Chia theo nhân viên (42 nhân viên/nhóm) để vừa đạt >= 20 cụm vừa giảm spillover so với chia theo yêu cầu.
+#   Vì công ty chỉ có 40 nhân viên nên không cách chia cụm nào đủ mẫu thấy mức chênh 5 điểm; chọn 20 nhân viên/nhóm (đủ 20 cụm, giảm spillover) và chấp nhận nâng MDE lên 6 điểm (n = 859/nhóm, m >= 299, DE = 6,96; power chỉ còn 0,64 nếu tác động thật là 5 điểm).
 #
 # Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
-#   Hiện tại 4,25% (51/1.200); ngưỡng an toàn dừng pilot: > 5,00% trong 3 ngày liên tiếp.
+#   Toàn dữ liệu 4,25% (51/1.200); trong phạm vi noi_dia + hang_nang là 3,97% (39/982). Không đặt trần tuyệt đối 3% để tránh dừng ngay tuần đầu; đặt ngưỡng chênh >= +2 điểm so với nhóm đối chứng hoặc vượt trần 6,0% trong 3 ngày liên tiếp.
 
 pilot:
   owner: "Trưởng vận hành pilot"
-  scope: "Chỉ áp dụng cho yêu cầu noi_dia và hang_nang tại các depot tham gia pilot (loại quoc_te vì CPS 22.515 đ > 12.000 đ)"
+  scope: "Chỉ noi_dia (0,22×) và hang_nang (0,69× so với 12.000 đ, simulated) tại các depot tham gia pilot; loại quoc_te (1,88×) và doi_tac (0,85×)"
   assignment:
     unit: staff
     control_share: 0.5
     randomized: true
-  rollout: [0.10, 0.25, 0.50]     # mỗi bước một tuần
+  rollout: [0.10, 0.25, 0.50]     # 4 -> 10 -> 20 nhân viên; mỗi bước một tuần
   primary_metric:
     name: dong_trong_24h_khong_mo_lai_7_ngay
     baseline: 0.70
-    mde: 0.05
+    mde: 0.06
     alpha: 0.05
     power: 0.80
-    n_per_arm: 3100
-    design_effect: 2.48
-    clusters_per_arm: 42
+    n_per_arm: 859
+    design_effect: 6.96
+    clusters_per_arm: 20
   identifiability:
     concurrent_control: true
-    spillover_risk: "Thấp; tách nhân viên ngẫu nhiên và không dùng chung hàng đợi xử lý"
+    spillover_risk: "Thấp; phân quyền theo tài khoản staff_id, tách hàng đợi và log theo nhân viên"
     predeclared: true
   stop_rules:
-    - "NẾU ti_le mo_lai_trong_7_ngay > 5.0% TRONG 3 ngay lien tiep THÌ Trưởng vận hành pilot dung rollout va chuyen ve quy trinh thu cong KHÔNG THÌ tiep tuc theo doi"
-    - "NẾU chi_phi_moi_viec_thanh_cong > 12.000 đ (hoac ti_le xem_lai > 50%) TRONG 1 tuan THÌ Kỹ sư phụ trách agent tam dung mo rong va tinh chinh nguong tu tin KHÔNG THÌ giu nguyen muc rollout"
-    - "NẾU ti_le bo_qua_goi_y (sua hoac bo) > 40% TRONG 5 ngay lam viec THÌ Trưởng vận hành pilot tam dung nhom thu nghiem de ra soat bang loi KHÔNG THÌ tiep tuc rollout"
+    - "NẾU ti_le mo_lai_trong_7_ngay của nhóm trợ lý cao hơn đối chứng >= 2 điểm hoặc vượt 6,0% TRONG 3 ngày liên tiếp THÌ Trưởng vận hành pilot tắt cờ trợ lý trong 30 phút KHÔNG THÌ không được sang bước rollout tiếp"
+    - "NẾU chi_phi_moi_viec_thanh_cong > 8.000 đ (simulated) hoặc ti_le xem_lai > 50% TRONG 1 tuần THÌ Kỹ sư phụ trách agent tạm dừng mở rộng, thu hẹp về noi_dia và giới hạn tối đa 2 lần chạy KHÔNG THÌ không được mở thêm hang_nang"
+    - "NẾU ti_le bo_qua_goi_y (sua hoặc bo) > 40% TRONG 5 ngày làm việc THÌ Trưởng nhóm CSKH phỏng vấn nhân viên và rà soát bảng lỗi trong 3 ngày KHÔNG THÌ không được tăng bước rollout"
   interim_looks: "chỉ kiểm tra chỉ số an toàn"
-  rollback: "Trưởng vận hành pilot tắt cờ tính năng trong 5 phút; toàn bộ yêu cầu chuyển về nhân viên tự xử lý theo quy trình chuẩn"
+  rollback: "Trưởng vận hành pilot tắt cờ tính năng trong 5–30 phút; toàn bộ yêu cầu chuyển về nhân viên tự xử lý theo quy trình chuẩn"
   decision_date: "2026-12-16"
-  simulated_inputs: ["phut_xem_lai_simulated", "phut_lam_lai_simulated", "cps_4472_simulated"]
+  simulated_inputs:
+    - "phut_xem_lai_simulated"
+    - "phut_lam_lai_simulated"
+    - "cps_goc_4472_simulated"
+    - "cps_noi_dia_2696_simulated"
+    - "cps_hang_nang_8221_simulated"
+    - "cps_xem_lai_100pct_11743_12415_simulated"

@@ -42,10 +42,10 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 
 | Khối lượng | Việc thành công mỗi tháng | Chi phí cố định mỗi việc | Chi phí mỗi việc thành công + cố định | So với 12.000 đ |
 | --- | ---: | ---: | ---: | ---: |
-| 45.000 yêu cầu/tháng | 41.242 | 970 đ | 4.384 đ (`simulated`) | 0,37× |
-| Một nửa khối lượng | 20.621 | 1.940 đ | 5.354 đ (`simulated`) | 0,45× |
+| 45.000 yêu cầu/tháng | 33.750 | 1.185 đ | 4.599 đ (`simulated`) | 0,38× |
+| Một nửa khối lượng | 16.875 | 2.370 đ | 5.784 đ (`simulated`) | 0,48× |
 
-- Chi phí cố định có đổi kết luận không? Ở khối lượng nào? **Không đổi kết luận** ở cả hai mức khối lượng (4.384 đ và 5.354 đ đều thấp hơn nhiều so với **12.000 đ**).
+- Chi phí cố định có đổi kết luận không? Ở khối lượng nào? **Không đổi kết luận** ở cả quy mô đầy đủ (**4.599 đ = 0,38×**) và nửa khối lượng (**5.784 đ = 0,48×**), đều thấp hơn nhiều so với **12.000 đ**; tuy nhiên chi phí cố định tăng gấp đôi khi khối lượng giảm một nửa (từ 1.185 đ lên 2.370 đ/việc).
 
 ## B1 · Đổi từng yếu tố
 
@@ -58,8 +58,8 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | Số ca làm lại gấp đôi | Tiền làm lại × 2 | 6.787 đ (`simulated`) | +51,77% |
 | Số ca làm lại giảm một nửa | Tiền làm lại ÷ 2 | 3.315 đ (`simulated`) | -25,88% |
 | Lương nhân viên tăng 25% | 2.500 đ mỗi phút | 5.506 đ (`simulated`) | +23,12% |
-| Chỉ cho chạy tối đa 2 lần | Bỏ lần chạy có attempt > 2; yêu cầu có so_lan_chay > 2 coi là chuyen_nhan_vien | 4.488 đ (`simulated`) | +0,35% |
-| Chỉ cho chạy 1 lần | Như trên với giới hạn 1 | 4.858 đ (`simulated`) | +8,63% |
+| Chỉ cho chạy tối đa 2 lần | Bỏ lần chạy có attempt > 2; yêu cầu có so_lan_chay > 2 coi là chuyen_nhan_vien và phút xem/làm lại = 0 | 4.237 đ (`simulated`) | -5,25% |
+| Chỉ cho chạy 1 lần | Như trên với giới hạn 1 | 4.111 đ (`simulated`) | -8,07% |
 
 ## B2 · Đổi một cặp và xếp hạng
 
@@ -70,13 +70,13 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 
 | Giới hạn | Tổng chi phí trợ lý | Số yêu cầu không thành công | Chi phí cả hệ thống | Chi phí mỗi việc thành công |
 | --- | ---: | ---: | ---: | ---: |
-| 1 lần | 4.279.781 đ (`simulated`) | 319 | 8.107.781 đ (`simulated`) | 4.858 đ (`simulated`) |
-| 2 lần | 4.335.220 đ (`simulated`) | 234 | 7.143.220 đ (`simulated`) | 4.488 đ (`simulated`) |
+| 1 lần | 3.621.781 đ (`simulated`) | 319 | 7.449.781 đ (`simulated`) | 4.111 đ (`simulated`) |
+| 2 lần | 4.093.220 đ (`simulated`) | 234 | 6.901.220 đ (`simulated`) | 4.237 đ (`simulated`) |
 | 3 lần | 4.373.585 đ (`simulated`) | 222 | 7.037.585 đ (`simulated`) | 4.472 đ (`simulated`) |
 
-- Giới hạn nào rẻ nhất cho công ty? Có trùng với giới hạn cho chi phí mỗi việc thành công thấp nhất không? **3 lần** rẻ nhất cho công ty (**7.037.585 đ**) và **trùng** với giới hạn cho chi phí mỗi việc thành công thấp nhất (**4.472 đ**).
+- Giới hạn nào rẻ nhất cho công ty? Có trùng với giới hạn cho chi phí mỗi việc thành công thấp nhất không? **2 lần** rẻ nhất cho công ty (**6.901.220 đ**) và **không trùng** với giới hạn cho chi phí mỗi việc thành công thấp nhất là **1 lần** (**4.111 đ**); tối ưu riêng CPS sẽ đẩy thêm 85 việc sang nhân viên.
 
 ## B4 · Nếu phải xem lại tất cả
 
-- Chi phí mỗi việc thành công khi xem lại 100% (`noi_dia` + `hang_nang`), so với 12.000 đ: **12.962 đ** (`simulated`), gấp **1,08×** mức 12.000 đ.
-- Kết quả này nói gì về thứ pilot cần học được? Pilot phải học cách **giữ tỉ lệ xem lại ở mức thấp** (dưới ~50%), nếu phải xem lại 100% thì trợ lý **đắt hơn** nhân viên tự làm.
+- Chi phí mỗi việc thành công khi xem lại 100% (`noi_dia` + `hang_nang`, `simulated`), so với 12.000 đ: **11.743 đ** (**0,98×**) nếu tính 9 phút/ca làm lại như đề; nếu dùng trung bình dữ liệu **15,3 phút/ca** làm lại thì tăng lên **12.415 đ** (**1,03×**, đắt hơn nhân viên tự làm). Mức hoà vốn xem lại chỉ **≤ 5,1 phút** (hoặc **≤ 4,8 phút**).
+- Kết quả này nói gì về thứ pilot cần học được? Pilot phải học cách **giảm tỉ lệ xem lại an toàn xuống thấp** (dưới 50%) và giữ mỗi lần xem lại ngắn hơn **4,8–5,1 phút**, vì xem lại 100% gần như không tiết kiệm được chi phí.
